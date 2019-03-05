@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>InstaFollow</title>
+		<meta charset="utf-8">
+		<style>
+			html {
+				height: 100%;
+				background-image: linear-gradient(purple, orange);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				color: white;
+			}
+			.div1 {
+				text-align: center;
+				font-size: 90px;
+				padding: 30px 30px;
+			}
+			.div2 {
+				font-size: 44px;
+				padding: 20px 30px;
+			}
+			.txt1 {
+				display: block;
+				margin: auto;
+				width: 95%;
+				font-size: 44px;
+				border: 10px solid white;
+				border-radius: 10px;
+				transition: 0.4s;
+			}
+			.txt1:focus {
+				border: 10px solid #008CE2;
+			}
+			.btn1 {
+				width: 100%;
+				cursor: pointer;
+				font-size: 60px;
+				padding: 20px 30px;
+				background-color: white;
+				color: purple;
+				border: 5px solid purple;
+				border-radius: 10px;
+				transition: 0.4s;
+			}
+			.btn1:hover {
+				background-color: purple;
+				color: white;
+			}
+			.btn1:focus {
+				background-color: purple;
+				color: white;
+			}
+			.ht1 {
+				color: white;
+			}
+			.div3 {
+				text-align: center;
+				font-size: 40px;
+				padding: 20px 30px;
+			}
+			.div4 {
+				text-align: center;
+				font-size: 44px;
+				padding: 20px 30px;
+			}
+			.hr1 {
+				border: 0px solid transparent;
+				background-color: white;
+				width: 80%;
+				height: 4px;
+			}
+			.div5 {
+				text-align: center;
+				font-size: 44px;
+			}
+		</style>
+	</head>
+	<body>
+		<br><br>
+		<div class="div1"><strong>InstaFollow</strong></div>
+		<br><br>
+		<div class="div4"><strong>Βρείτε ποιος σας ακολουθεί και ποιος όχι. Δεν απαιτείται κωδικός.</strong></div>
+		<br><br><hr class="hr1"><br><br>
+		<div class="div2">Παρακαλούμε, επικολλήστε εδώ τη <a href="https://www.instagram.com/accounts/access_tool/accounts_following_you" target="_blank" class="ht1">λίστα των ακολούθων</a> σας (Εφαρμογή &quot;Instagram&quot; &gt; Ρυθμίσεις &gt; Απόρρητο και ασφάλεια &gt; Πρόσβαση σε δεδομένα &gt; Λογαριασμοί που σας ακολουθούν): </div>
+		<br>
+		<textarea class="txt1" rows="5" cols="31" id="txt1"></textarea>
+		<br><br><br>
+		<div class="div2">Παρακαλούμε, επικολλήστε εδώ τη <a href="https://www.instagram.com/accounts/access_tool/accounts_you_follow" target="_blank" class="ht1">λίστα των ατόμων που ακολουθείτε</a> (Εφαρμογή &quot;Instagram&quot; &gt; Ρυθμίσεις &gt; Απόρρητο και ασφάλεια &gt; Πρόσβαση σε δεδομένα &gt; Λογαριασμοί που ακολουθείτε): </div>
+		<br>
+		<textarea class="txt1" rows="5" cols="31" id="txt2"></textarea>
+		<br><br><br>
+		<button class="btn1" onclick="follow()">Έλεγχος!</button>
+		<div class="div2" id="div1"></div>
+		<script>
+			function follow() {
+				// Get data from textarea elements
+				var ersint = document.getElementById("txt1").value;
+				var ingint = document.getElementById("txt2").value;
+				var ers = [];
+				var ing = [];
+				var tmp1 = "";
+				var tmp2 = "";
+				var c1 = 0;
+				var c2 = 0;
+				if (ersint.length > 0) {
+					for (c1 = 0; c1 < ersint.length; c1++) {
+						if (ersint[c1] == "\n") {
+							ers.push(tmp1);
+							tmp1 = "";
+						} else {
+							tmp1 += ersint[c1];
+						}
+					}
+					if (ersint[c1 - 1] != "\n") {
+						ers.push(tmp1);
+					}
+				}
+				if (ingint.length > 0) {
+					for (c2 = 0; c2 < ingint.length; c2++) {
+						if (ingint[c2] == "\n") {
+							ing.push(tmp2);
+							tmp2 = "";
+						} else {
+							tmp2 += ingint[c2];
+						}
+					}
+					if (ingint[c2 - 1] != "\n") {
+						ing.push(tmp2);
+					}
+				}
+				// Comparing lists
+				var c3 = 0;
+				var c4 = 0;
+				var c5 = 0;
+				var c6 = 0;
+				var ersing = [];
+				var erso = [];
+				var ingo = [];
+				for (c3 = 0; c3 < ers.length; c3++) {
+					for (c4 = 0; c4 < ing.length; c4++) {
+						if (ers[c3] == ing[c4] && ers[c3] != "") {
+							ersing.push(ers[c3]);
+							break;
+						} else {
+							continue;
+						}
+					}
+					if (c4 == ing.length && ers[c3] != "") {
+						erso.push(ers[c3]);
+					}
+				}
+				for (c5 = 0; c5 < ing.length; c5++) {
+					for (c6 = 0; c6 < ers.length; c6++) {
+						if (ing[c5] == ers[c6]) {
+							break;
+						} else {
+							continue;
+						}
+					}
+					if (c6 == ers.length && ing[c5] != "") {
+						ingo.push(ing[c5]);
+					}
+				}
+				// Preview results
+				var ersingstr = ersing.join(", \n");
+				var ersostr = erso.join(", \n");
+				var ingostr = ingo.join(", \n");
+				document.getElementById("div1").innerHTML="<br><br><strong>ΑΠΟΤΕΛΕΣΜΑΤΑ: </strong><br><br><div class='div5'><strong>ΑΚΟΛΟΥΘΟΙ: " + ers.length + "<br>ΑΚΟΛΟΥΘΕΙΤΕ: " + ing.length + "</strong></div><br><strong>Ακόλουθοι που ακολουθείτε [" + ersing.length + "]: </strong><br><textarea class='txt1' rows='10' cols='31' readonly='readonly'>" + ersingstr + "</textarea><br><br><strong>Ακόλουθοι που δεν ακολουθείτε [" + erso.length + "]: </strong><br><textarea class='txt1' rows='10' cols='31' readonly='readonly'>" + ersostr + "</textarea><br><br><strong>Ακολουθείτε χωρίς να σας ακολουθούν [" + ingo.length + "]: </strong><br><textarea class='txt1' rows='10' cols='31' readonly='readonly'>" + ingostr + "</textarea>";
+			}
+		</script>
+		<div class="div3">© 2019 InstaFollow. Με την επιφύλαξη παντός νομίμου δικαιώματος. <br>Επικοινωνία: <a href="mailto:georgekollin@gmail.com" class="ht1">georgekollin@gmail.com</a>.</div>
+	</body>
+</html>
